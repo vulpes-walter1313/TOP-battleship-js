@@ -1,0 +1,24 @@
+{
+  "name": "top-battleship",
+  "version": "1.0.0",
+  "description": "My attempt at the Javascript battleship challenge from The Odin Project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest src/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vulpes-walter1313/TOP-battleship-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vulpes-walter1313/TOP-battleship-js/issues"
+  },
+  "homepage": "https://github.com/vulpes-walter1313/TOP-battleship-js#readme",
+  "devDependencies": {
+    "@babel/preset-env": "^7.14.8",
+    "jest": "^27.0.6"
+  }
+}
