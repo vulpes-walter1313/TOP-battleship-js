@@ -24,35 +24,35 @@ test('Board shows if all ships are sunk', () => {
 
 test('Place Ship on board in X axis', () => {
   const board = new Gameboard();
-  const destroyer = new Ship(5);
+  const destroyer = new Ship(5, 'destroyer');
   const coordinates = [0, 0, 'x'];
   board.placeShip(destroyer, coordinates);
-  expect(board.board[0][0]).toEqual({hasShip: true, hasBeenShot: false});
+  expect(board.board[0][0]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
   expect(board.board[1][0]).toEqual({hasShip: false, hasBeenShot: false});
-  expect(board.board[0][1]).toEqual({hasShip: true, hasBeenShot: false});
-  expect(board.board[0][2]).toEqual({hasShip: true, hasBeenShot: false});
-  expect(board.board[0][3]).toEqual({hasShip: true, hasBeenShot: false});
-  expect(board.board[0][4]).toEqual({hasShip: true, hasBeenShot: false});
+  expect(board.board[0][1]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
+  expect(board.board[0][2]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
+  expect(board.board[0][3]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
+  expect(board.board[0][4]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
   expect(board.board[0][5]).toEqual({hasShip: false, hasBeenShot: false});
 });
 
 test('Place Ship on board in Y axis', () => {
   const board = new Gameboard();
-  const destroyer = new Ship(5);
+  const destroyer = new Ship(5, 'destroyer');
   const coordinates = [2, 3, 'y'];
   board.placeShip(destroyer, coordinates);
-  expect(board.board[2][3]).toEqual({hasShip: true, hasBeenShot: false});
+  expect(board.board[2][3]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
   expect(board.board[2][4]).toEqual({hasShip: false, hasBeenShot: false});
-  expect(board.board[3][3]).toEqual({hasShip: true, hasBeenShot: false});
-  expect(board.board[4][3]).toEqual({hasShip: true, hasBeenShot: false});
-  expect(board.board[5][3]).toEqual({hasShip: true, hasBeenShot: false});
-  expect(board.board[6][3]).toEqual({hasShip: true, hasBeenShot: false});
+  expect(board.board[3][3]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
+  expect(board.board[4][3]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
+  expect(board.board[5][3]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
+  expect(board.board[6][3]).toEqual({hasShip: true, hasBeenShot: false, shipName: 'destroyer'});
   expect(board.board[7][3]).toEqual({hasShip: false, hasBeenShot: false});
 });
 
 test('Place Ship on board in too short X axis throws error', () => {
   const board = new Gameboard();
-  const destroyer = new Ship(5);
+  const destroyer = new Ship(5, 'destroyer');
   const coordinates = [0, 8, 'x'];
   expect(() => board.placeShip(destroyer, coordinates)).toThrowError();
 });
@@ -82,6 +82,8 @@ test('isPlacementValid in x axis is working correctly', () =>{
   expect(board.isPlacementValid(coordinates3, 2, 'x')).toBe(true);
 });
 
-test.todo('receiveAttack can detect ships');
+test.skip('receiveAttack can detect ships', () => {
+
+});
 test.todo('receiveAttack send hit method to correct ship');
 test.todo('receiveAttack records correctly hit cells');
