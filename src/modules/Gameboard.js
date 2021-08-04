@@ -2,6 +2,7 @@ class Gameboard {
   constructor() {
     this.board = Gameboard.createBoard();
     this.allShipsSunk = false;
+    this.shipLocations = {};
   }
   static createBoard() {
     let board = [];
@@ -29,20 +30,25 @@ class Gameboard {
 
   placeShip(ship, coordinates) {
     if (!this.isPlacementValid([coordinates[0], coordinates[1]], ship.length, coordinates[2])) {
+      // If placement is invalid then it throws an error 
       throw new Error('Placement is invalid');
     }
+
+    this.shipLocations[ship.name] = {
+      locations: []
+    };
+
     if (coordinates[2] === 'x') {
-      /* Create a if check to see that the start coordinate
-         does not exceed limit in it's x axis
-      */
       for (let i = coordinates[1]; i < coordinates[1] + ship.length; i++) {
         this.board[coordinates[0]][i]['hasShip'] = true;
+        this.shipLocations[ship.name]['locations'].push([coordinates[0], i]);
       }
     } else if (coordinates[2] === 'y') {
       let firstArrIndex = coordinates[0];
       for (let i = 0; i < ship.length; i++) {
         this.board[firstArrIndex][coordinates[1]]['hasShip'] = true;
         firstArrIndex++;
+        this.shipLocations[ship.name]['locations'].push([firstArrIndex, coordinates[1]]);
       }
     }
   }
