@@ -3,6 +3,7 @@ class Gameboard {
     this.board = Gameboard.createBoard();
     this.allShipsSunk = false;
     this.shipLocations = {};
+    this.ships = {};
   }
   static createBoard() {
     let board = [];
@@ -33,10 +34,18 @@ class Gameboard {
       // If placement is invalid then it throws an error 
       throw new Error('Placement is invalid');
     }
-
+    // prepares a object with ship.name as key that holds an array of coordinates in an array
+    /*
+      this.shipLocations[ship.name] = {
+        locations: [[0,0], [0,1], [0,2]]
+      };
+    */ 
     this.shipLocations[ship.name] = {
       locations: []
     };
+    // Creates an obj with ship.name as a key and holds the ship objects
+    // This is to be able to call up the correct ship to send the .hit method to
+    this.ships[ship.name] = ship;
 
     if (coordinates[2] === 'x') {
       for (let i = coordinates[1]; i < coordinates[1] + ship.length; i++) {
@@ -78,6 +87,27 @@ class Gameboard {
       }
     }
     return isValid;
+  }
+
+  receiveAttack(coordinates) {
+    /*
+      coordinates is an array:
+      [firstArrayIndex, secondArrayIndex]
+    */
+    const [firstIndex, secondIndex] = coordinates;
+    
+    // Condition is location does not have ship
+    if (this.board[firstIndex][secondIndex]['hasBeenShot'] === false) {
+      this.board[firstIndex][secondIndex]['hasBeenShot'] = true;
+    } else {
+      return;
+    }
+
+    // Condition is location has ship
+    if (this.board[firstIndex][secondIndex]['hasShip'] === true) {
+      let shipName = this.board[firstIndex][secondIndex]['shipName'];
+      this.ships[shipName].hit([firstIndex, secondIndex]);
+    }
   }
 }
 
