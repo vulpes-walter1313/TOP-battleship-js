@@ -91,7 +91,7 @@ describe('Ship Placement', ()=> {
 });
 
 describe('Receive Attack Tests', () => {
-  test('receiveAttack send hit method to correct ship', ()=> {
+  test('receiveAttack send hit method to carrier', ()=> {
     const board = new Gameboard();
     const carrier = new Ship(5, 'carrier');
     const destroyer = new Ship(4, 'destroyer');
@@ -102,7 +102,32 @@ describe('Receive Attack Tests', () => {
     expect(board.ships['carrier'].hits.length).toBe(1);
     expect(board.board[0][1]['hasBeenShot']).toBe(false);
     expect(board.board[1][0]['hasBeenShot']).toBe(false);
-    
   });
-  test.todo('receiveAttack records correctly hit cells');
+
+  test('receiveAttack send hit method to destroyer', ()=> {
+    const board = new Gameboard();
+    const carrier = new Ship(5, 'carrier');
+    const destroyer = new Ship(4, 'destroyer');
+    board.placeShip(carrier, [0, 0, 'y']);
+    board.placeShip(destroyer, [2, 3, 'x']);
+    board.receiveAttack([2,4]);
+    expect(board.board[2][3]['hasBeenShot']).toBe(false);
+    expect(board.ships['destroyer'].hits.length).toBe(1);
+    expect(board.board[2][4]['hasBeenShot']).toBe(true);
+    expect(board.board[2][5]['hasBeenShot']).toBe(false);
+  });
+
+  test('receiveAttack records correctly hit cells', () => {
+    const board = new Gameboard();
+
+    board.receiveAttack([2,5]);
+    board.receiveAttack([7,1]);
+    board.receiveAttack([9,9]);
+    board.receiveAttack([0,0]);
+
+    expect(board.board[2][5]).toEqual({hasShip: false, hasBeenShot: true});
+    expect(board.board[7][1]).toEqual({hasShip: false, hasBeenShot: true});
+    expect(board.board[9][9]).toEqual({hasShip: false, hasBeenShot: true});
+    expect(board.board[0][0]).toEqual({hasShip: false, hasBeenShot: true});
+  });
 });
