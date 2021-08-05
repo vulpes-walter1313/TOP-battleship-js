@@ -14,16 +14,68 @@ describe('Board Structure', ()=> {
   
 });
 
-describe('Board has function allshipssunk flag', ()=> {
+describe('Board knows if all ships are sunk', ()=> {
   test('Board shows all ships are afloat on init', () => {
     const board = new Gameboard();
-    expect(board.allShipsSunk).toBe(false);
+    // const submarine = new Ship(3, 'submarine');
+    // const coordinates = [2, 3, 'x'];
+    // board.placeShip(submarine, coordinates)
+    expect(board.areAllShipsSunk()).toBe(false);
   });
 
-  test('Board shows if all ships are sunk', () => {
+  test('are all ships sunk, 1 boat', () => {
     const board = new Gameboard();
-    board.areAllShipsSunk(true);
-    expect(board.allShipsSunk).toBe(true);
+    const submarine = new Ship(3, 'submarine');
+    const coordinates = [0,0, 'y'];
+    board.placeShip(submarine, coordinates);
+    board.receiveAttack([0,0]);
+    board.receiveAttack([1,0]);
+    board.receiveAttack([2,0]);
+    const result = board.areAllShipsSunk();
+    expect(result).toBe(true);
+  });
+
+  test('are all ships sunk, 2 boat', () => {
+    const board = new Gameboard();
+    const submarine = new Ship(3, 'submarine');
+    const destroyer = new Ship(4, 'destroyer');
+    const coordinates = [0,0, 'y'];
+    const coordinates2 = [0, 1,'x'];
+    board.placeShip(submarine, coordinates);
+    board.placeShip(destroyer, coordinates2);
+    // sinking submarine
+    board.receiveAttack([0,0]);
+    board.receiveAttack([1,0]);
+    board.receiveAttack([2,0]);
+    // sinking destroyer
+    board.receiveAttack([0,1]);
+    board.receiveAttack([0,2]);
+    board.receiveAttack([0,3]);
+    board.receiveAttack([0,4]);
+
+    const result = board.areAllShipsSunk();
+    expect(result).toBe(true);
+  });
+  test('are all ships sunk, 2 boat, not all sunk', () => {
+    const board = new Gameboard();
+    const submarine = new Ship(3, 'submarine');
+    const destroyer = new Ship(4, 'destroyer');
+    const coordinates = [0,0, 'y'];
+    const coordinates2 = [0, 1,'x'];
+    board.placeShip(submarine, coordinates);
+    board.placeShip(destroyer, coordinates2);
+    // sinking submarine
+    board.receiveAttack([0,0]);
+    board.receiveAttack([1,0]);
+    board.receiveAttack([2,0]);
+    // sinking destroyer
+    board.receiveAttack([0,1]);
+    board.receiveAttack([0,2]);
+    board.receiveAttack([0,3]);
+    board.receiveAttack([0,5]);
+
+    const result = board.areAllShipsSunk();
+    expect(result).toBe(false);
   });
 });
 
