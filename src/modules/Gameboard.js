@@ -1,7 +1,7 @@
 class Gameboard {
   constructor() {
     this.board = Gameboard.createBoard();
-    this.allShipsSunk = false;
+    this.allShipsSunk = {};
     this.shipLocations = {};
     this.ships = {};
   }
@@ -20,13 +20,30 @@ class Gameboard {
     }
     return board;
   }
-  areAllShipsSunk(test=false) {
+  areAllShipsSunk() {
     // This method will be used to see when to flip the
     // allShipsSunk flag to true. But a test argument can be used
     // Simply to see if it gets called.
-    if (test === true) {
-      this.allShipsSunk = true;
+    let shipsStatus = [];
+    if (Object.keys(this.allShipsSunk).length === 0) {
+      return false;
     }
+
+    for (const ship in this.allShipsSunk) {
+      /*
+      pushes a boolean true of false to shipsStatus
+      depending is the ship is sunk
+      */
+      shipsStatus.push(this.allShipsSunk[ship].isSunk);
+    }
+
+    if (shipsStatus.every(val => val === true)) {
+      // If all ships are sunk, then it returns true
+      return true;
+    } else { 
+      return false;
+    }
+  
   }
 
   placeShip(ship, coordinates) {
@@ -46,6 +63,9 @@ class Gameboard {
     // Creates an obj with ship.name as a key and holds the ship objects
     // This is to be able to call up the correct ship to send the .hit method to
     this.ships[ship.name] = ship;
+    this.allShipsSunk[ship.name] = {
+      isSunk: false
+    };
 
     if (coordinates[2] === 'x') {
       for (let i = coordinates[1]; i < coordinates[1] + ship.length; i++) {
@@ -107,6 +127,10 @@ class Gameboard {
     if (this.board[firstIndex][secondIndex]['hasShip'] === true) {
       let shipName = this.board[firstIndex][secondIndex]['shipName'];
       this.ships[shipName].hit([firstIndex, secondIndex]);
+      // checks to see if ship got sunked
+      if (this.ships[shipName].isSunk() === true) {
+        this.allShipsSunk[shipName]['isSunk'] = true;
+      }
     }
   }
 }
