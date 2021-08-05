@@ -13,6 +13,7 @@ describe('Ship instantiation test', () => {
   });
 
 });
+
 describe('hit method tests', () => {
 
   test('expect hit to increase ship.hits.length', () => {
@@ -38,4 +39,22 @@ describe('hit method tests', () => {
     expect(destroyer.hits).not.toContainEqual([3,0]);
   });
 
+});
+
+describe('isSunk Method tests', () => {
+
+  test('isSunk responds correctly to being sunk', () => {
+    const submarine = new Ship(3, 'submarine');
+    submarine.hit([0,0]);
+    submarine.hit([0,1]);
+    submarine.hit([0,2]);
+    expect(submarine.isSunk()).toBe(true);
+  });
+
+  test('isSunk responds correctly to NOT being sunk', () => {
+    const submarine = new Ship(3, 'submarine');
+    submarine.hit([0,0]);
+    submarine.hit([0,1]);
+    expect(submarine.isSunk()).toBe(false);
+  });
 });
