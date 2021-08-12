@@ -1,8 +1,6 @@
 class Gameboard {
   constructor() {
     this.board = Gameboard.createBoard();
-    this.allShipsSunk = {};
-    this.shipLocations = {};
     this.ships = {};
   }
   static createBoard() {
@@ -51,20 +49,12 @@ class Gameboard {
       // If placement is invalid then it throws an error 
       throw new Error('Placement is invalid');
     }
-    // prepares a object with ship.name as key that holds an array of coordinates in an array
-    /*
-      this.shipLocations[ship.name] = {
-        locations: [[0,0], [0,1], [0,2]]
-      };
-    */ 
-    this.shipLocations[ship.name] = {
+    // prepares a object with ship.name as key that holds an object of information on the ship.
+
+    this.ships[ship.name] = {
+      'ship': ship,
+      isShipSunk: false,
       locations: []
-    };
-    // Creates an obj with ship.name as a key and holds the ship objects
-    // This is to be able to call up the correct ship to send the .hit method to
-    this.ships[ship.name] = ship;
-    this.allShipsSunk[ship.name] = {
-      isSunk: false
     };
 
     if (coordinates[2] === 'x') {
