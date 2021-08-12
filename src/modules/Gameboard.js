@@ -32,7 +32,7 @@ class Gameboard {
       pushes a boolean true of false to shipsStatus
       depending is the ship is sunk
       */
-      shipsStatus.push(this.allShipsSunk[ship].isShipSunk);
+      shipsStatus.push(this.ships[ship].isShipSunk);
     }
 
     if (shipsStatus.every(val => val === true)) {
