@@ -23,16 +23,16 @@ class Gameboard {
     // allShipsSunk flag to true. But a test argument can be used
     // Simply to see if it gets called.
     let shipsStatus = [];
-    if (Object.keys(this.allShipsSunk).length === 0) {
+    if (Object.keys(this.ships).length === 0) {
       return false;
     }
 
-    for (const ship in this.allShipsSunk) {
+    for (const ship in this.ships) {
       /*
       pushes a boolean true of false to shipsStatus
       depending is the ship is sunk
       */
-      shipsStatus.push(this.allShipsSunk[ship].isSunk);
+      shipsStatus.push(this.allShipsSunk[ship].isShipSunk);
     }
 
     if (shipsStatus.every(val => val === true)) {
@@ -61,7 +61,7 @@ class Gameboard {
       for (let i = coordinates[1]; i < coordinates[1] + ship.length; i++) {
         this.board[coordinates[0]][i]['hasShip'] = true;
         this.board[coordinates[0]][i]['shipName'] = ship.name;
-        this.shipLocations[ship.name]['locations'].push([coordinates[0], i]);
+        this.ships[ship.name]['locations'].push([coordinates[0], i]);
       }
     } else if (coordinates[2] === 'y') {
       let firstArrIndex = coordinates[0];
@@ -69,7 +69,7 @@ class Gameboard {
         this.board[firstArrIndex][coordinates[1]]['hasShip'] = true;
         this.board[firstArrIndex][coordinates[1]]['shipName'] = ship.name;
         firstArrIndex++;
-        this.shipLocations[ship.name]['locations'].push([firstArrIndex, coordinates[1]]);
+        this.ships[ship.name]['locations'].push([firstArrIndex, coordinates[1]]);
       }
     }
   }
