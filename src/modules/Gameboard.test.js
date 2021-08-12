@@ -151,7 +151,7 @@ describe('Receive Attack Tests', () => {
     board.placeShip(destroyer, [2, 3, 'x']);
     board.receiveAttack([0,0]);
     expect(board.board[0][0]['hasBeenShot']).toBe(true);
-    expect(board.ships['carrier'].hits.length).toBe(1);
+    expect(board.ships['carrier'].ship.hits.length).toBe(1);
     expect(board.board[0][1]['hasBeenShot']).toBe(false);
     expect(board.board[1][0]['hasBeenShot']).toBe(false);
   });
@@ -164,7 +164,7 @@ describe('Receive Attack Tests', () => {
     board.placeShip(destroyer, [2, 3, 'x']);
     board.receiveAttack([2,4]);
     expect(board.board[2][3]['hasBeenShot']).toBe(false);
-    expect(board.ships['destroyer'].hits.length).toBe(1);
+    expect(board.ships['destroyer'].ship.hits.length).toBe(1);
     expect(board.board[2][4]['hasBeenShot']).toBe(true);
     expect(board.board[2][5]['hasBeenShot']).toBe(false);
   });
