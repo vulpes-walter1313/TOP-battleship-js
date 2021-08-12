@@ -121,6 +121,9 @@ class Gameboard {
       if (this.ships[shipName].ship.isSunk() === true) {
         this.ships[shipName].isShipSunk = true;
       }
+      return 'hit';
+    } else {
+      return 'miss';
     }
   }
 }

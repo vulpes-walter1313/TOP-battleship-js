@@ -182,4 +182,17 @@ describe('Receive Attack Tests', () => {
     expect(board.board[9][9]).toEqual({hasShip: false, hasBeenShot: true});
     expect(board.board[0][0]).toEqual({hasShip: false, hasBeenShot: true});
   });
+
+  test('receiveAttack returns hit when it hits a ship', () => {
+    const board = new Gameboard();
+    const ship = new Ship(3, 'destroyer');
+    board.placeShip(ship, [0,0,'x']);
+    const result = board.receiveAttack([0,1]);
+    expect(result).toBe('hit');
+  });
+  test('receiveAttack returns miss when it misses a ship', () => {
+    const board = new Gameboard();
+    const result = board.receiveAttack([0,1]);
+    expect(result).toBe('miss');
+  });
 });
