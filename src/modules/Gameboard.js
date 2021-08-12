@@ -116,10 +116,10 @@ class Gameboard {
     // Condition is location has ship
     if (this.board[firstIndex][secondIndex]['hasShip'] === true) {
       let shipName = this.board[firstIndex][secondIndex]['shipName'];
-      this.ships[shipName].hit([firstIndex, secondIndex]);
+      this.ships[shipName].ship.hit([firstIndex, secondIndex]);
       // checks to see if ship got sunked
-      if (this.ships[shipName].isSunk() === true) {
-        this.allShipsSunk[shipName]['isSunk'] = true;
+      if (this.ships[shipName].ship.isSunk() === true) {
+        this.ships[shipName].isShipSunk = true;
       }
     }
   }
