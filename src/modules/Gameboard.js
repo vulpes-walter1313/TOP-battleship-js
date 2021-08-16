@@ -106,24 +106,31 @@ class Gameboard {
     */
     const [firstIndex, secondIndex] = coordinates;
     
-    // Condition is location does not have ship
     if (this.board[firstIndex][secondIndex]['hasBeenShot'] === false) {
-      this.board[firstIndex][secondIndex]['hasBeenShot'] = true;
-    } else {
-      return;
-    }
+      this.registerAttack(firstIndex, secondIndex);
 
-    // Condition is location has ship
-    if (this.board[firstIndex][secondIndex]['hasShip'] === true) {
-      let shipName = this.board[firstIndex][secondIndex]['shipName'];
-      this.ships[shipName].ship.hit([firstIndex, secondIndex]);
-      // checks to see if ship got sunked
-      if (this.ships[shipName].ship.isSunk() === true) {
-        this.ships[shipName].isShipSunk = true;
+      // Condition if location has ship
+      if (this.board[firstIndex][secondIndex]['hasShip'] === true) {
+        this.registerShipHit(firstIndex, secondIndex);
+        return 'hit';
+      } else {
+        return 'miss';
       }
-      return 'hit';
     } else {
-      return 'miss';
+      return 'Cell has already been shot';
+    }
+  }
+
+  registerAttack(firstIndex, secondIndex) {
+    this.board[firstIndex][secondIndex]['hasBeenShot'] = true;
+  }
+
+  registerShipHit(firstIndex, secondIndex) {
+    let shipName = this.board[firstIndex][secondIndex]['shipName'];
+    this.ships[shipName].ship.hit([firstIndex, secondIndex]);
+    // checks to see if ship got sunked
+    if (this.ships[shipName].ship.isSunk() === true) {
+      this.ships[shipName].isShipSunk = true;
     }
   }
 }
