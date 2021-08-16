@@ -1,0 +1,6 @@
+@use './partials/base.scss';
+h1 {
+  text-align: center;
+  font-size: clamp(2rem, 10vh, 5rem);
+  margin: 1rem 0;
+}
