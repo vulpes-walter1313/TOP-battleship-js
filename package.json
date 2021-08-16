@@ -1,24 +1,21 @@
 {
-  "name": "top-battleship",
-  "version": "1.0.0",
-  "description": "My attempt at the Javascript battleship challenge from The Odin Project.",
   "main": "index.js",
   "scripts": {
-    "test": "jest src/**/*.test.js"
+    "test": "jest src/**/*.test.js",
+    "start": "webpack serve",
+    "build-dev": "webpack",
+    "build": "NODE_ENV=production webpack"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vulpes-walter1313/TOP-battleship-js.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vulpes-walter1313/TOP-battleship-js/issues"
-  },
-  "homepage": "https://github.com/vulpes-walter1313/TOP-battleship-js#readme",
   "devDependencies": {
     "@babel/preset-env": "^7.14.8",
-    "jest": "^27.0.6"
+    "css-loader": "^6.2.0",
+    "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.0.6",
+    "mini-css-extract-plugin": "^2.2.0",
+    "sass": "^1.37.5",
+    "sass-loader": "^12.1.0",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.8.0",
+    "webpack-dev-server": "^3.11.2"
   }
 }
