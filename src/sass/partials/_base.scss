@@ -8,9 +8,11 @@
   --white: rgb(240, 240, 240);
   --black: rgb(16,16,16);
   --dark-bg:  rgb(36, 36, 36);
+  --light-grey: rgb(114, 114, 114);
 }
 
 body {
   background-color: var(--dark-bg);
   color: var(--white);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }

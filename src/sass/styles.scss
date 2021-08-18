@@ -1,4 +1,6 @@
 @use './partials/base.scss';
+@use './partials/playerinfointro';
+@use './partials/setplayerships';
 h1 {
   text-align: center;
   font-size: clamp(2rem, 10vh, 5rem);

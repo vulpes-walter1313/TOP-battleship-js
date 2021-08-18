@@ -1,0 +1,27 @@
+.set-player-ships-container {
+  background-color: var(--light-grey);
+  width: min(80%, 25em);
+  margin: 0 auto;
+  padding: 1em 0;
+  h2 {
+    text-align: center;
+    margin: 0;
+  }
+  .placement-grid {
+    display: grid;
+    margin: 1em 0 1em;
+    width: 400px;
+    height: 400px;
+    grid-template-columns: repeat(10, 1fr);
+    .placement-grid-cell {
+      width: 100%;
+      height: 100%;
+      border: 1px solid black;
+      background-color: rgb(252, 206, 164);
+      margin: 0;
+      &:hover {
+        background-color: rgb(160, 125, 92);
+      }
+    }
+  }
+}
