@@ -1,5 +1,6 @@
 import Controller from "./Controller.js";
 import Player from './modules/Player';
+import Ship from './modules/Ship';
 
 class App {
   constructor(id) {
@@ -48,6 +49,28 @@ class App {
     const title = document.createElement('h2');
     title.textContent = 'Place your Ships';
 
+    const rotateBtn = document.createElement('button');
+    rotateBtn.setAttribute('type', 'button');
+    rotateBtn.textContent = 'Rotate';
+
+    rotateBtn.addEventListener('click', ()=> {
+      const gridCells = document.querySelectorAll('.placement-grid-cell');
+      const axisDisplay = document.querySelector('.placement-axis-display')
+      gridCells.forEach(cell => {
+        if (cell.getAttribute('data-orientation') === 'x') {
+          cell.setAttribute('data-orientation', 'y');
+          axisDisplay.textContent = 'Placing in Y-axis';
+        } else {
+          cell.setAttribute('data-orientation', 'x');
+          axisDisplay.textContent = 'Placing in X-axis';
+        }
+      })
+    });
+
+    const axisDisplay = document.createElement('p');
+    axisDisplay.classList.add('placement-axis-display');
+    axisDisplay.textContent = 'Placing in X-axis';
+
     const boardGrid = document.createElement('div');
     boardGrid.classList.add('placement-grid');
 
@@ -63,20 +86,49 @@ class App {
       for (let inI = 0; inI < 10; inI++) {
         const cell = document.createElement('div');
         cell.classList.add('placement-grid-cell');
+        // Add ship details into attributes
         cell.setAttribute('data-outeri', outI);
         cell.setAttribute('data-inneri', inI);
-        /*
-          Something has to be done to alternate ships
-          in order to call this.player1.gameboard.placeShip(ship, coords);
-          on click
-         */
+        cell.setAttribute('data-orientation', 'x');
+        
         Controller.insertAfter(boardGrid, cell);
       }
     }
+    // click event to submit coordinates
+    boardGrid.addEventListener('click', (e) => {
+      if (e.target.classList.contains('placement-grid-cell')) {
+        if (shipsList.length != 0) {
+          const shipData = shipsList.shift();
+          const ship = new Ship(shipData[1], shipData[0]);
+          const coords = [
+            parseInt(e.target.dataset.outeri),
+            parseInt(e.target.dataset.inneri),
+            e.target.dataset.orientation
+          ];
+          this.player1.gameboard.placeShip(ship, coords);
+          console.log(this.player1.gameboard);
+        } else {
+          console.log('no more ships to place');
+        }
+      } 
+    });
+
+    // hover on event to handle illustration of placement
+    boardGrid.addEventListener('mouseover', (e) => {
+      e.target.classList.add('hovered');
+    });
+    
+    // Hover off event
+    boardGrid.addEventListener('mouseout', (e) => {
+      e.target.classList.remove('hovered');
+    });
     Controller.insertAfter(setShipsContainer, title);
+    Controller.insertAfter(setShipsContainer, rotateBtn);
+    Controller.insertAfter(setShipsContainer, axisDisplay);
     Controller.insertAfter(setShipsContainer, boardGrid);
     Controller.insertAfter(this.app, setShipsContainer);
   }
+  
   playerPlaceShip() {
 
   }
