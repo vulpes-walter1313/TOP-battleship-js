@@ -140,6 +140,16 @@ describe('Ship Placement', ()=> {
     expect(board.isPlacementValid(coordinates3, 4, 'x')).toBe(false);
     expect(board.isPlacementValid(coordinates3, 2, 'x')).toBe(true);
   });
+
+  test('ships locations are set up correctly', () => {
+    const board = new Gameboard();
+    const destroyer = new Ship(4, 'destroyer');
+    const carrier = new Ship(5, 'carrier');
+    board.placeShip(destroyer, [0,0,'x']);
+    board.placeShip(carrier, [1,0,'y']);
+    expect(board.ships['destroyer'].locations.length).toBe(4);
+    expect(board.ships['carrier'].locations.length).toBe(5);
+  });
 });
 
 describe('Receive Attack Tests', () => {
