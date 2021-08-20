@@ -53,17 +53,24 @@ class App {
     const rotateBtn = document.createElement('button');
     rotateBtn.setAttribute('type', 'button');
     rotateBtn.textContent = 'Rotate';
+    rotateBtn.setAttribute('data-axis', 'x');
 
     rotateBtn.addEventListener('click', ()=> {
       const gridCells = document.querySelectorAll('.placement-grid-cell');
-      const axisDisplay = document.querySelector('.placement-axis-display')
+      const axisDisplay = document.querySelector('.placement-axis-display');
+      const axisBtn = document.querySelector('.set-player-ships-container button');
+      if (axisBtn.dataset.axis === 'x') {
+        axisBtn.dataset.axis = 'y';
+      } else if (axisBtn.dataset.axis === 'y') {
+        axisBtn.dataset.axis = 'x';
+      }
       gridCells.forEach(cell => {
-        if (cell.getAttribute('data-orientation') === 'x') {
-          cell.setAttribute('data-orientation', 'y');
-          axisDisplay.textContent = 'Placing in Y-axis';
-        } else {
+        if (axisBtn.dataset.axis === 'x') {
           cell.setAttribute('data-orientation', 'x');
           axisDisplay.textContent = 'Placing in X-axis';
+        } else {
+          cell.setAttribute('data-orientation', 'y');
+          axisDisplay.textContent = 'Placing in Y-axis';
         }
       })
     });
@@ -84,20 +91,8 @@ class App {
     ];
     
     const firstShip = shipsList.shift();
-    for (let outI = 0; outI < 10; outI++) {
-      for (let inI = 0; inI < 10; inI++) {
-        const cell = document.createElement('div');
-        cell.classList.add('placement-grid-cell');
-        // Add ship details into attributes
-        cell.setAttribute('data-outeri', outI);
-        cell.setAttribute('data-inneri', inI);
-        cell.setAttribute('data-orientation', 'x');
-        cell.setAttribute('data-shipname', firstShip[0]);
-        cell.setAttribute('data-shiplength', firstShip[1]);
-        
-        Controller.insertAfter(boardGrid, cell);
-      }
-    }
+    this.buildPlacementGrid(boardGrid, firstShip);
+
     // click event to submit coordinates
     boardGrid.addEventListener('click', (e) => {
       if (e.target.classList.contains('placement-grid-cell')) {
@@ -114,8 +109,8 @@ class App {
             this.player1.gameboard.placeShip(ship, coords);
             if (shipsList.length != 0) {
               const shipData = shipsList.shift();
-              this.updatePlaceShipGridAttributes('data-shipname', shipData[0]);
-              this.updatePlaceShipGridAttributes('data-shiplength', shipData[1]);
+              const boardGrid = document.querySelector('.placement-grid');
+              this.buildPlacementGrid(boardGrid, shipData);
               this.updatePlacementShipName();
             } else {
               this.updatePlaceShipGridAttributes('data-shipname', 'undefined');
@@ -147,7 +142,6 @@ class App {
              cellsToHighlight.push(cell);
            }
           }
-          console.dir(cellsToHighlight);
           cellsToHighlight.forEach(cell => cell.classList.add('hovered'));
 
         } else if (axis === 'y' ){
@@ -158,7 +152,6 @@ class App {
              cellsToHighlight.push(cell);
            }
           }
-          console.dir(cellsToHighlight);
           cellsToHighlight.forEach(cell => cell.classList.add('hovered'));
         }
 
@@ -190,6 +183,36 @@ class App {
     const formattedName = shipname.slice(0,1).toUpperCase() + shipname.slice(1);
     const shipNameDisplay = document.querySelector('.placement-shipname-display');
     shipNameDisplay.textContent = `Place your ${formattedName}`;
+  }
+  buildPlacementGrid(gridDisplay, shipInfo) {
+    Controller.cleanElement(gridDisplay);
+
+    const axisBtn = document.querySelector('.set-player-ships-container button');
+    let axis;
+    if (axisBtn) {
+      axis = axisBtn.dataset.axis;
+    } else {
+      axis = 'x';
+    }
+
+
+    for (let outI = 0; outI < 10; outI++) {
+      for (let inI = 0; inI < 10; inI++) {
+        const cell = document.createElement('div');
+        cell.classList.add('placement-grid-cell');
+        // Add ship details into attributes
+        cell.setAttribute('data-outeri', outI);
+        cell.setAttribute('data-inneri', inI);
+        cell.setAttribute('data-orientation', axis);
+        cell.setAttribute('data-shipname', shipInfo[0]);
+        cell.setAttribute('data-shiplength', shipInfo[1]);
+        if (this.player1.gameboard.board[outI][inI].hasShip === true) {
+          cell.classList.add('ship-placed');
+        }
+        
+        Controller.insertAfter(gridDisplay, cell);
+      }
+    }
   }
 }
 
