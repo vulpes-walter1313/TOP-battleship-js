@@ -1,6 +1,7 @@
 @use './partials/base.scss';
 @use './partials/playerinfointro';
 @use './partials/setplayerships';
+@use './partials/gameboarddisplay';
 h1 {
   text-align: center;
   font-size: clamp(2rem, 10vh, 5rem);

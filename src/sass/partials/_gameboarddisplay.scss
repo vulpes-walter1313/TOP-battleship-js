@@ -1,0 +1,41 @@
+.gameplay-display-container {
+  display: flex;
+  height: 100%;
+  justify-content: space-evenly;
+  .gameplay-player1-board {
+    background-color: var(--light-grey);
+    display: grid;
+    margin: 1em 0 1em;
+    width: 400px;
+    height: 400px;
+    grid-template-columns: repeat(10, 1fr);
+    .gameboard-grid-cell {
+      width: 100%;
+      height: 100%;
+      border: 1px solid black;
+      background-color: var(--grid-cells);
+      margin: 0;
+    }
+    .gameboard-grid-cell.gameboard-ship-placed {
+      background-color: var(--gameboard-ship);
+    }
+  }
+  .gameplay-computer-board {
+    background-color: var(--light-grey);
+    display: grid;
+    margin: 1em 0 1em;
+    width: 400px;
+    height: 400px;
+    grid-template-columns: repeat(10, 1fr);
+    .gameboard-grid-cell {
+      width: 100%;
+      height: 100%;
+      border: 1px solid black;
+      background-color: var(--grid-cells);
+      margin: 0;
+    }
+    .gameboard-grid-cell.cell-hovered {
+      background-color: var(--cell-hovered);
+    }
+  }
+}

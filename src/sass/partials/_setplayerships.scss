@@ -27,14 +27,14 @@
       width: 100%;
       height: 100%;
       border: 1px solid black;
-      background-color: rgb(252, 206, 164);
+      background-color: var(--grid-cells);
       margin: 0;
     }
     .placement-grid-cell.hovered {
-      background-color: rgb(133, 96, 62);
+      background-color: var(--cell-hovered);
     }
     .placement-grid-cell.ship-placed {
-      background-color: rgb(105, 56, 0);
+      background-color: var(--gameboard-ship);
     }
   }
 }
