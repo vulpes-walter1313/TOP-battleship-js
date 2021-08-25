@@ -38,8 +38,6 @@ class App {
     this.player1 = new Player(playerName);
     this.computer = new Player();
     Controller.cleanElement(this.app);
-    console.log(this.player1);
-    console.log(this.computer);
     this.setPlayerShips();
   }
   setPlayerShips() {
@@ -113,12 +111,14 @@ class App {
               this.buildPlacementGrid(boardGrid, shipData);
               this.updatePlacementShipName();
             } else {
-              this.updatePlaceShipGridAttributes('data-shipname', 'undefined');
+              this.computer.gameboard.computerPlaceShips();
+              console.log(this.computer.gameboard);
+              this.startTheGame();
+              // this.updatePlaceShipGridAttributes('data-shipname', 'undefined');
             }
           } catch (err) {
             console.log(err);
           }
-          console.log(this.player1.gameboard);
         } else {
           console.log('no more ships to place');
         }
@@ -213,6 +213,72 @@ class App {
         Controller.insertAfter(gridDisplay, cell);
       }
     }
+  }
+
+  startTheGame() {
+    Controller.cleanElement(this.app);
+    const gameboardContainer = document.createElement('div');
+    gameboardContainer.classList.add('gameplay-display-container');
+
+    const player1BoardDisplay = document.createElement('div');
+    player1BoardDisplay.classList.add('gameplay-player1-board');
+
+    this.buildGameboard(player1BoardDisplay, this.player1.gameboard.board);
+    
+    const computerBoardDisplay = document.createElement('div');
+    computerBoardDisplay.classList.add('gameplay-computer-board');
+    this.buildGameboard(computerBoardDisplay, this.player1.enemyBoard.board);
+
+    computerBoardDisplay.addEventListener('mouseover', (e) => {
+      if (e.target.classList.contains('gameboard-grid-cell')) {
+        e.target.classList.add('cell-hovered');
+      }
+    });
+    computerBoardDisplay.addEventListener('mouseout', (e) => {
+      if (e.target.classList.contains('gameboard-grid-cell')) {
+        e.target.classList.remove('cell-hovered');
+      }
+    });
+    
+    computerBoardDisplay.addEventListener('click', (e) => {
+      // console.log(`${e.target.dataset.outeri}, ${e.target.dataset.inneri}`);
+      const coords = [
+        e.target.dataset.outeri,
+        e.target.dataset.inneri
+      ];
+      this.playerTurn(coords);
+    });
+
+
+    Controller.insertAfter(gameboardContainer, player1BoardDisplay);
+    Controller.insertAfter(gameboardContainer, computerBoardDisplay);
+    Controller.insertAfter(this.app, gameboardContainer);
+  }
+
+  buildGameboard(displayDiv, board) {
+    Controller.cleanElement(displayDiv);
+
+    for (let outI = 0; outI < 10; outI++) {
+      for (let inI = 0; inI < 10; inI++) {
+        const cell = document.createElement('div');
+        cell.classList.add('gameboard-grid-cell');
+        // Add ship details into attributes
+        cell.setAttribute('data-outeri', outI);
+        cell.setAttribute('data-inneri', inI);
+        if (board[outI][inI].hasShip === true) {
+          cell.classList.add('gameboard-ship-placed');
+        }
+        
+        Controller.insertAfter(displayDiv, cell);
+      }
+    }
+  }
+
+  playerTurn(coordinates) {
+    const [outeri, inneri] = coordinates;
+    console.log(outeri, inneri);
+    
+
   }
 }
 
