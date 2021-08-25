@@ -206,3 +206,16 @@ describe('Receive Attack Tests', () => {
     expect(result).toBe('miss');
   });
 });
+
+describe('Random Computer placement', () => {
+
+  test('Random integer generator', () => {
+    const board = new Gameboard();
+    const [ randomOutI, randomInI, axis ] = board.randomPointGen();
+    expect(randomOutI).toBeLessThanOrEqual(9);
+    expect(randomOutI).toBeGreaterThanOrEqual(0);
+    expect(randomInI).toBeLessThanOrEqual(9);
+    expect(randomInI).toBeGreaterThanOrEqual(0);
+    expect(axis).toMatch(/[xy]/);
+  });
+});

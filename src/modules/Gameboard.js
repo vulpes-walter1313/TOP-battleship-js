@@ -1,3 +1,5 @@
+import Ship from "./Ship";
+
 class Gameboard {
   constructor() {
     this.board = Gameboard.createBoard();
@@ -132,6 +134,37 @@ class Gameboard {
     if (this.ships[shipName].ship.isSunk() === true) {
       this.ships[shipName].isShipSunk = true;
     }
+  }
+
+  computerPlaceShips() {
+    const shipsList = [
+      ['carrier', 5],
+      ['battleship', 4],
+      ['cruiser', 3],
+      ['submarine', 3],
+      ['destroyer', 2],
+    ];
+
+    const ships = shipsList.map(shipInfo => new Ship(shipInfo[1], shipInfo[0]));
+
+    ships.forEach(ship => {
+      let shipPlaced = false;
+      while (!shipPlaced) {
+        const startPoint = this.randomPointGen();
+        if (this.isPlacementValid([startPoint[0], startPoint[1]], ship.length, startPoint[2])) {
+          this.placeShip(ship, startPoint);
+          shipPlaced = true;
+        }
+      }
+    });
+    
+
+  }
+  randomPointGen() {
+    const randomOutI = Math.floor(Math.random() * (9 - 0) + 0);
+    const randomInI = Math.floor(Math.random() * (9 - 0) + 0);
+    const axis = Math.floor(Math.random() * 2) === 0 ? 'x' : 'y';
+    return [randomOutI, randomInI, axis];
   }
 }
 
