@@ -37,10 +37,10 @@ class App {
     const playerName = formData.get('name');
     this.player1 = new Player(playerName);
     this.computer = new Player();
-    Controller.cleanElement(this.app);
     this.setPlayerShips();
   }
   setPlayerShips() {
+    Controller.cleanElement(this.app);
     const setShipsContainer = document.createElement('div');
     setShipsContainer.classList.add('set-player-ships-container');
 
@@ -219,12 +219,25 @@ class App {
     Controller.cleanElement(this.app);
     const gameboardContainer = document.createElement('div');
     gameboardContainer.classList.add('gameplay-display-container');
+    // player1
+    const player1DisplayWrapper = document.createElement('div');
+    player1DisplayWrapper.classList.add('player1-display-wrapper');
+
+    const player1NameTitle = document.createElement('h2');
+    player1NameTitle.textContent = `${this.player1.name}`;
 
     const player1BoardDisplay = document.createElement('div');
     player1BoardDisplay.classList.add('gameplay-player1-board');
 
     this.buildGameboard(player1BoardDisplay, this.player1.gameboard.board);
     
+    // computer player
+    const computerDisplayWrapper = document.createElement('div');
+    computerDisplayWrapper.classList.add('computer-display-wrapper');
+
+    const computerName = document.createElement('h2');
+    computerName.textContent = `${this.computer.name}`;
+
     const computerBoardDisplay = document.createElement('div');
     computerBoardDisplay.classList.add('gameplay-computer-board');
     this.buildGameboard(computerBoardDisplay, this.player1.enemyBoard.board);
@@ -250,8 +263,12 @@ class App {
     });
 
 
-    Controller.insertAfter(gameboardContainer, player1BoardDisplay);
-    Controller.insertAfter(gameboardContainer, computerBoardDisplay);
+    Controller.insertAfter(player1DisplayWrapper, player1NameTitle);
+    Controller.insertAfter(player1DisplayWrapper, player1BoardDisplay);
+    Controller.insertAfter(computerDisplayWrapper, computerName);
+    Controller.insertAfter(computerDisplayWrapper, computerBoardDisplay);
+    Controller.insertAfter(gameboardContainer, player1DisplayWrapper);
+    Controller.insertAfter(gameboardContainer, computerDisplayWrapper);
     Controller.insertAfter(this.app, gameboardContainer);
   }
 
@@ -320,7 +337,36 @@ class App {
   }
 
   winnerAnnoucement(player) {
-    alert(`${player.name} won!!`);
+    const winnerBannerContainer = document.createElement('div');
+    winnerBannerContainer.classList.add('winner-banner-container');
+
+    const winnerBanner = document.createElement('div');
+    winnerBanner.classList.add('winner-banner');
+    const winnerContent = document.createElement('p');
+    winnerContent.textContent = `${player.name} Won!!!`;
+
+    const playAgainBtn = document.createElement('button');
+    playAgainBtn.setAttribute('type', 'button');
+    playAgainBtn.textContent = "Play Again";
+
+    playAgainBtn.addEventListener('click', () => {
+      this.restartGame();
+    })
+
+    winnerBanner.appendChild(winnerContent);
+    winnerBanner.appendChild(playAgainBtn);
+
+    winnerBannerContainer.appendChild(winnerBanner);
+    Controller.insertAfter(this.app, winnerBannerContainer);
+  }
+  restartGame() {
+    // reset player1 and computer gameboards and enemyboards
+    this.player1.gameboard.resetBoard();
+    this.player1.enemyBoard.resetBoard();
+    this.computer.gameboard.resetBoard();
+    this.computer.enemyBoard.resetBoard();
+    // place player 1's ships again
+    this.setPlayerShips()
   }
 }
 
