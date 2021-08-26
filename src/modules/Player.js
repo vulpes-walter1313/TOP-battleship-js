@@ -15,6 +15,7 @@ class Player {
       firstIndex = this.randomNumGen();
       secondIndex = this.randomNumGen();
     }
+    this.enemyBoard.receiveAttack([firstIndex, secondIndex]);
     
     return [firstIndex, secondIndex];
   }
