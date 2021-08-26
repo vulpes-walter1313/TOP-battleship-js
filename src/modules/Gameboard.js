@@ -166,6 +166,9 @@ class Gameboard {
     const axis = Math.floor(Math.random() * 2) === 0 ? 'x' : 'y';
     return [randomOutI, randomInI, axis];
   }
+  resetBoard() {
+    this.board = Gameboard.createBoard();
+  }
 }
 
 export default Gameboard;
