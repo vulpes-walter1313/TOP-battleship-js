@@ -268,6 +268,11 @@ class App {
         if (board[outI][inI].hasShip === true) {
           cell.classList.add('gameboard-ship-placed');
         }
+        if (board[outI][inI]['hasBeenShot'] === true && board[outI][inI]['hasShip'] === true) {
+          cell.classList.add('grid-cell-hit');
+        } else if (board[outI][inI]['hasBeenShot'] === true && board[outI][inI]['hasShip'] === false) {
+          cell.classList.add('grid-cell-miss');
+        }
         
         Controller.insertAfter(displayDiv, cell);
       }
@@ -277,8 +282,45 @@ class App {
   playerTurn(coordinates) {
     const [outeri, inneri] = coordinates;
     console.log(outeri, inneri);
-    
 
+    // if coordinate already hit, exit
+    if (this.player1.enemyBoard.board[outeri][inneri]['hasBeenShot'] === true) {
+      return;
+    }
+
+    // player one attacks computer
+    const result = this.computer.gameboard.receiveAttack([outeri, inneri]);
+    this.player1.enemyBoard.receiveAttack([outeri, inneri]);
+
+    // depending on hit or miss, update player1.enemyBoard accordingly
+    if (result === 'hit') {
+      this.player1.enemyBoard.board[outeri][inneri]['hasShip'] = true;
+      const enemyBoardDisplay = document.querySelector('.gameplay-computer-board');
+      this.buildGameboard(enemyBoardDisplay, this.player1.enemyBoard.board);
+    } else if (result === 'miss') {
+      const enemyBoardDisplay = document.querySelector('.gameplay-computer-board');
+      this.buildGameboard(enemyBoardDisplay, this.player1.enemyBoard.board);
+    }
+
+    // check if computer player has all ships sunk
+    if (this.computer.gameboard.areAllShipsSunk()) {
+      this.winnerAnnoucement(this.player1);
+    } else {
+      // if computer ships not sunk then computer attacks player 1
+      const computerMoveCoords = this.computer.computerMove();
+      this.player1.gameboard.receiveAttack(computerMoveCoords); // Dont need the return value
+      const player1BoardDisplay = document.querySelector('.gameplay-player1-board');
+      this.buildGameboard(player1BoardDisplay, this.player1.gameboard.board);
+    }
+
+    // check if player1 ships sunk
+    if (this.player1.gameboard.areAllShipsSunk()) {
+      this.winnerAnnoucement(this.computer)
+    }
+  }
+
+  winnerAnnoucement(player) {
+    alert(`${player.name} won!!`);
   }
 }
 

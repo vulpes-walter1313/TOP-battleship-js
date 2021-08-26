@@ -19,6 +19,12 @@
     .gameboard-grid-cell.gameboard-ship-placed {
       background-color: var(--gameboard-ship);
     }
+    .gameboard-grid-cell.grid-cell-miss {
+      background-color: var(--miss);
+    }
+    .gameboard-grid-cell.grid-cell-hit {
+      background-color: var(--hit);
+    }
   }
   .gameplay-computer-board {
     background-color: var(--light-grey);
@@ -37,5 +43,12 @@
     .gameboard-grid-cell.cell-hovered {
       background-color: var(--cell-hovered);
     }
+    .gameboard-grid-cell.grid-cell-hit {
+      background-color: var(--hit);
+    }
+    .gameboard-grid-cell.grid-cell-miss {
+      background-color: var(--miss);
+    }
+
   }
 }
