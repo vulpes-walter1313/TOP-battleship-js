@@ -365,6 +365,7 @@ class App {
     this.player1.enemyBoard.resetBoard();
     this.computer.gameboard.resetBoard();
     this.computer.enemyBoard.resetBoard();
+    this.computer.validMoves = Player.resetMoves();
     // place player 1's ships again
     this.setPlayerShips()
   }
