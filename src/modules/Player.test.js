@@ -18,5 +18,5 @@ describe('Computer Attack test', () => {
     expect(coords[1]).toBeLessThanOrEqual(9);
     expect(coords.length).toBe(2);
   });
-
+  
 });
