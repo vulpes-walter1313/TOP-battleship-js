@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 let mode = 'development';
+let target = "web";
 
 if (process.env.NODE_ENV === 'production') {
   mode = 'production';
+  target = "browserslist";
 }
 
 module.exports = {
@@ -19,7 +21,13 @@ module.exports = {
     rules: [
       {
         test: /.js$/i,
-        exclude: /node_modules/
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env']
+          }
+        }
       },
       {
         test: /.scss$/i,
